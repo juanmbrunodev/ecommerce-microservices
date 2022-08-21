@@ -60,6 +60,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         reviewServiceUrl         = "http://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
     }
 
+    @Override
     public Product getProduct(int productId) {
 
         try {
@@ -97,6 +98,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         }
     }
 
+    @Override
     public List<Recommendation> getRecommendations(int productId) {
 
         try {
@@ -114,6 +116,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         }
     }
 
+    @Override
     public List<Review> getReviews(int productId) {
 
         try {

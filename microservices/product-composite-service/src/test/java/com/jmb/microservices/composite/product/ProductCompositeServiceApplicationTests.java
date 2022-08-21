@@ -1,13 +1,14 @@
 package com.jmb.microservices.composite.product;
 
 import com.jmb.util.exceptions.NotFoundException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import com.jmb.core.product.Product;
 import com.jmb.core.recommendation.Recommendation;
@@ -21,7 +22,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=RANDOM_PORT)
 public class ProductCompositeServiceApplicationTests {
 
@@ -35,7 +36,7 @@ public class ProductCompositeServiceApplicationTests {
 	@MockBean
 	private ProductCompositeIntegration compositeIntegration;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 
 		when(compositeIntegration.getProduct(PRODUCT_ID_OK)).
