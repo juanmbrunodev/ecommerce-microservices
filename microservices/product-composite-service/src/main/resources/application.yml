@@ -1,4 +1,4 @@
-server.port: 7000
+server.port: 7004
 server.error.include-message: always
 
 app:

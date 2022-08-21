@@ -12,6 +12,11 @@ import com.jmb.util.http.ServiceUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The controller calls the different services to retrieve information through the {@link ProductCompositeIntegration}
+ * class, and after that it creates and aggregate of the information retrieved, as we filter the information
+ * returned from the services and keep a summary of some domain objects (Recommendations summary, etc.)
+ */
 @RestController
 public class ProductCompositeServiceImpl implements ProductCompositeService {
 

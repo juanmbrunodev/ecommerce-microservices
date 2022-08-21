@@ -25,6 +25,14 @@ import java.util.List;
 
 import static org.springframework.http.HttpMethod.GET;
 
+/**
+ * The integration component uses a helper class in the Spring Framework, RestTemplate,
+ * to perform the actual HTTP requests to the core microservices.
+ *
+ * The integration component is used to call the three core services, and a helper method, createProductAggregate(),
+ * is used to create a response object of the ProductAggregate type based on the responses from the calls to the
+ * integration component.
+ */
 @Component
 public class ProductCompositeIntegration implements ProductService, RecommendationService, ReviewService {
 
@@ -37,6 +45,9 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     private final String recommendationServiceUrl;
     private final String reviewServiceUrl;
 
+    /**
+     * Below Method is a crude attemtp at service discovery until Spring Cloud is used (hardcoded port numbers, etc.)
+     */
     @Autowired
     public ProductCompositeIntegration(
         RestTemplate restTemplate,
