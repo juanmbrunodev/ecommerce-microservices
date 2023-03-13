@@ -16,3 +16,20 @@ logging:
   level:
     root: INFO
     com.jmb: DEBUG
+
+---
+spring.config.activate.on-profile: docker
+
+server.port: 8080
+
+# The information on the services' names below is set in the [root_folder]/docker-compose.yml file.
+app:
+  product-service:
+    host: product
+    port: 8080
+  recommendation-service:
+    host: recommendation
+    port: 8080
+  review-service:
+    host: review
+    port: 8080

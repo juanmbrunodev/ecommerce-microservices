@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.7.0'
+		springBootVersion = '3.0.1'
 	}
 	repositories {
 		mavenCentral()
@@ -17,7 +17,8 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.jmb.microservices.composite.product'
 version = '1.0.0-SNAPSHOT'
-sourceCompatibility = 11
+
+sourceCompatibility = 18
 
 repositories {
 	mavenCentral()
@@ -47,4 +48,8 @@ allprojects {
 
 test {
 	useJUnitPlatform()
+}
+
+compileJava {
+    options.compilerArgs += "--enable-preview"
 }
