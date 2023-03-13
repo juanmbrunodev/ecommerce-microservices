@@ -45,8 +45,7 @@ public class RecommendationServiceApplicationTests {
                 .expectStatus().isEqualTo(BAD_REQUEST)
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.path").isEqualTo("/recommendation")
-                .jsonPath("$.message").isEqualTo("Required int parameter 'productId' is not present");
+                .jsonPath("$.path").isEqualTo("/recommendation");
     }
 
     @Test

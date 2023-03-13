@@ -14,7 +14,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=RANDOM_PORT)
-
 public class ProductServiceApplicationTests {
 
     @Autowired
