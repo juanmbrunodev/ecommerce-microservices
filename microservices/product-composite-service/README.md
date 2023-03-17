@@ -1,4 +1,4 @@
-## Review Service
+## Product Composite Service
 
 TODO: Complete the info once the service is fully productionize.
 
