@@ -74,3 +74,20 @@ to run the following:
 - Delete docker images
 - Build the whole landscape or the service of interest.
 - Run again the test-em-all.bash script as indicated above.
+
+<br/>
+
+### Accessing the OpenAPI Documentation for the Microservices
+
+The Documentation offers in this project general descriptive information about the API, such as:
+
+- The name, description, version, and contact information for the API
+- Terms of usage and license information
+- Links to external information regarding the API, if any
+
+_To access the API documentation_:
+
+- Run `docker compose up`, if needed, check before the services containers are not running by executing the following
+command `docker ps | grep 'ecommerce'`.
+- Then, to browse the OpenAPI documentation, use the embedded Swagger UI viewer. Open the http://localhost:8080/openapi/swagger-ui.html URL in a web browser
+
