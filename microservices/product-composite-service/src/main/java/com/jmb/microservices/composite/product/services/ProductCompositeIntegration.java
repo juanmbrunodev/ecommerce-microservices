@@ -90,10 +90,10 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         } catch (HttpClientErrorException ex) {
             LOG.error("Got Exception while querying service", ex);
             var statusCode = ex.getStatusCode().value();
-
+            LOG.error("Status Code Received: " + statusCode);
             switch (statusCode) {
 
-                case 400:
+                case 404:
                     throw new NotFoundException(getErrorMessage(ex));
 
                 // "UNPROCESSABLE_ENTITY"

@@ -56,3 +56,21 @@ To stop docker compose execute:
 ```
 docker compose down
 ```
+
+<br/>
+
+### Running the Bash Integration Tests
+
+To execute the bash script to run integration tests on the product-composite service (and by transitivity in the services
+it calls), the following shell script can be executed from the root of the project (sudo is not needed). 
+
+./test-em-all.bash start stop
+
+**WARNING:** Docker must be installed on the host machine that runs this command.
+
+**WARNING 2:** If changes are made to the projects, the images of those might be cached locally in Docker. So it's better
+to run the following:
+
+- Delete docker images
+- Build the whole landscape or the service of interest.
+- Run again the test-em-all.bash script as indicated above.
