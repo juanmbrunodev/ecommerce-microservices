@@ -3,7 +3,24 @@
 Generic microservices project for an imaginary ecommerce site. The high level design can be depicted as follows:
 
 
+<br/>
 
+## Services Layers View
+
+The microservices layered image below includes all the services split into different layers encapsulating different
+responsibilities around business logic (Service Layer), communication (Protocol Layer) and data (Persistence Layer)
+functions.
+
+![image info](./docs/services_layers_view.png)
+
+The diagram is depicted without added complexity to highlight as well interactions, at the persistence layer, with
+different database technologies used by the services.
+
+The composite service, on the other hand, lacks a persistence layer but contains an _Integration Layer_ which aggregates
+the information retrieved from the different services pertaining to different contexts (Products, Reviews, etc.) and is
+used to handle the communication with the three core microservices.
+
+<br/>
 
 ### Running the application in Docker Compose
 
