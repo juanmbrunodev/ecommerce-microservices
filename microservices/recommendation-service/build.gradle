@@ -1,6 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '3.0.1'
+		mapstructVersion = "1.5.3.Final"
 	}
 	repositories {
 		mavenCentral()
@@ -31,8 +32,20 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-actuator')
 	implementation('org.springframework.boot:spring-boot-starter-webflux')
 	implementation('org.projectlombok:lombok:1.18.24')
+	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+	//MongoDB Spring Support
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+	//For IDE Support.
+	compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('io.projectreactor:reactor-test')
+	//DB Interaction Testing Dependencies
+	implementation platform('org.testcontainers:testcontainers-bom:1.17.6')
+	testImplementation 'org.testcontainers:testcontainers'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:mongodb'
 }
 
 if (JavaVersion.current().isJava8Compatible()) {

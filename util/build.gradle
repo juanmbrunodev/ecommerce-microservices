@@ -21,7 +21,7 @@ apply plugin: 'eclipse'
 group = 'com.jmb.microservices.util'
 version = '1.0.0-SNAPSHOT'
 
-sourceCompatibility = 17
+sourceCompatibility = 18
 
 repositories {
 	mavenCentral()
