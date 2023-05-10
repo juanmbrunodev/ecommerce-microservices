@@ -1,10 +1,19 @@
 server.port: 7001
 server.error.include-message: always
 
+spring.data.mongodb:
+#  Uncomment below Settings for Local MongoDB Cluster
+#  host: localhost
+#  port: 27017
+#  database: product-db
+  auto-index-creation: true
+
+
 logging:
   level:
     root: INFO
-    com.jmb: DEBUG
+    se.magnus: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 
 ---
 spring.config.activate.on-profile: docker

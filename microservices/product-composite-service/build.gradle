@@ -18,7 +18,7 @@ apply plugin: 'io.spring.dependency-management'
 group = 'com.jmb.microservices.composite.product'
 version = '1.0.0-SNAPSHOT'
 
-sourceCompatibility = 18
+sourceCompatibility = 20
 
 repositories {
 	mavenCentral()

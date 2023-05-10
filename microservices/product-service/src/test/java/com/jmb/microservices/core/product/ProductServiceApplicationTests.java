@@ -14,13 +14,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=RANDOM_PORT)
-public class ProductServiceApplicationTests {
+class ProductServiceApplicationTests {
 
     @Autowired
     private WebTestClient client;
 
 	@Test
-	public void getProductById() {
+	void getProductById() {
 
 		int productId = 1;
 
@@ -35,7 +35,7 @@ public class ProductServiceApplicationTests {
 	}
 
 	@Test
-	public void getProductInvalidParameterString() {
+	void getProductInvalidParameterString() {
 
         client.get()
             .uri("/product/no-integer")
@@ -49,7 +49,7 @@ public class ProductServiceApplicationTests {
 	}
 
 	@Test
-	public void getProductNotFound() {
+	void getProductNotFound() {
 
 		int productIdNotFound = 13;
 
@@ -65,7 +65,7 @@ public class ProductServiceApplicationTests {
 	}
 
 	@Test
-	public void getProductInvalidParameterNegativeValue() {
+	void getProductInvalidParameterNegativeValue() {
 
         int productIdInvalid = -1;
 
