@@ -1,5 +1,6 @@
 package com.jmb.microservices.core.product;
 
+import com.jmb.microservices.core.product.persistence.MongoDBTestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=RANDOM_PORT)
-class ProductServiceApplicationTests {
+class ProductServiceApplicationTests extends MongoDBTestBase {
 
     @Autowired
     private WebTestClient client;

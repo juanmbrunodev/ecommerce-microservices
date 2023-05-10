@@ -2,10 +2,9 @@ server.port: 7001
 server.error.include-message: always
 
 spring.data.mongodb:
-#  Uncomment below Settings for Local MongoDB Cluster
-#  host: localhost
-#  port: 27017
-#  database: product-db
+  host: localhost
+  port: 27017
+  database: product-db
   auto-index-creation: true
 
 
