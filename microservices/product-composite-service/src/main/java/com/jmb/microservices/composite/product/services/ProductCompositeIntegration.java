@@ -27,9 +27,7 @@ import static org.springframework.http.HttpMethod.GET;
 
 /**
  * The integration component uses a helper class in the Spring Framework,
- * RestTemplate,
- * to perform the actual HTTP requests to the core microservices.
- *
+ * RestTemplate, to perform the actual HTTP requests to the core microservices.
  * The integration component is used to call the three core services, and a
  * helper method, createProductAggregate(),
  * is used to create a response object of the ProductAggregate type based on the
@@ -49,7 +47,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     private final String reviewServiceUrl;
 
     /**
-     * Below Method is a crude attemtp at service discovery until Spring Cloud is
+     * Below Method is a crude attempt at service discovery until Spring Cloud is
      * used (hardcoded port numbers, etc.)
      */
     @Autowired
@@ -90,7 +88,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         } catch (HttpClientErrorException ex) {
             LOG.error("Got Exception while querying service", ex);
             var statusCode = ex.getStatusCode().value();
-            LOG.error("Status Code Received: " + statusCode);
+            LOG.error("Status Code Received: {}", statusCode);
             switch (statusCode) {
 
                 case 404:
@@ -108,12 +106,16 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         }
     }
 
-    private String getErrorMessage(HttpClientErrorException ex) {
-        try {
-            return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage();
-        } catch (IOException ioex) {
-            return ex.getMessage();
-        }
+    //TODO: Implement this
+    @Override
+    public Product createProduct(Product product) {
+        return null;
+    }
+
+    //TODO: Implement this
+    @Override
+    public void deleteProduct(int productId) {
+
     }
 
     @Override
@@ -154,6 +156,14 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         } catch (Exception ex) {
             LOG.warn("Got an exception while requesting reviews, return zero reviews: {}", ex.getMessage());
             return new ArrayList<>();
+        }
+    }
+
+    private String getErrorMessage(HttpClientErrorException ex) {
+        try {
+            return mapper.readValue(ex.getResponseBodyAsString(), HttpErrorInfo.class).getMessage();
+        } catch (IOException ioex) {
+            return ex.getMessage();
         }
     }
 }
