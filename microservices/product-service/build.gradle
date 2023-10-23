@@ -35,6 +35,7 @@ dependencies {
 	implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 	//MongoDB Spring Support
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	//For IDE Support.
@@ -46,6 +47,7 @@ dependencies {
 	implementation platform('org.testcontainers:testcontainers-bom:1.17.6')
 	testImplementation 'org.testcontainers:testcontainers'
 	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.assertj:assertj-core:3.21.0'
 	testImplementation 'org.testcontainers:mongodb'
 }
 
