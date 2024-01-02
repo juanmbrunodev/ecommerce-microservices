@@ -15,8 +15,8 @@ public class RecommendationMapperTest {
     public void testEntityToApi() {
 
         var entity = new RecommendationEntity(1, 1, "anAuthor", 5, "aContent");
+        var api = mapper.entityToApi(entity);
 
-        var api = mapper.mapEntityToApi(entity);
         assertEquals(api.getRecommendationId(), entity.getRecommendationId());
         assertEquals(api.getProductId(), entity.getProductId());
         assertEquals(api.getAuthor(), entity.getAuthor());
@@ -27,11 +27,12 @@ public class RecommendationMapperTest {
     public void testApiToEntity() {
         var api = new Recommendation(1, 1, "anAuthor", 5, "aContent",
                 "serviceAddress");
-        var entityMapped = mapper.apiToEntity(api);
-        assertEquals(entityMapped.getProductId(), api.getProductId());
-        assertEquals(entityMapped.getRecommendationId(), api.getRecommendationId());
-        assertEquals(entityMapped.getAuthor(), api.getAuthor());
-        assertEquals(entityMapped.getRate(), api.getRate());
-        assertEquals(entityMapped.getContent(), api.getContent());
+        var entity = mapper.apiToEntity(api);
+
+        assertEquals(entity.getProductId(), api.getProductId());
+        assertEquals(entity.getRecommendationId(), api.getRecommendationId());
+        assertEquals(entity.getAuthor(), api.getAuthor());
+        assertEquals(entity.getRate(), api.getRate());
+        assertEquals(entity.getContent(), api.getContent());
     }
 }

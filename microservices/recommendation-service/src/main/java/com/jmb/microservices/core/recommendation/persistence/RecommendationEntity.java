@@ -1,6 +1,5 @@
 package com.jmb.microservices.core.recommendation.persistence;
 
-import lombok.Builder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
@@ -77,33 +76,5 @@ public class RecommendationEntity {
 
     public String getContent() {
         return content;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public void setRecommendationId(int recommendationId) {
-        this.recommendationId = recommendationId;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 }

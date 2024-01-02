@@ -9,14 +9,7 @@ public class Recommendation {
     private String content;
     private String serviceAddress;
 
-    public Recommendation() {
-        productId = 0;
-        recommendationId = 0;
-        author = null;
-        rate = 0;
-        content = null;
-        serviceAddress = null;
-    }
+    public Recommendation() {}
 
     public Recommendation(int productId, int recommendationId, String author, int rate, String content, String serviceAddress) {
         this.productId = productId;
