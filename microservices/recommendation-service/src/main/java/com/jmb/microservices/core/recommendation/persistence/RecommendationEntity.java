@@ -77,4 +77,24 @@ public class RecommendationEntity {
     public String getContent() {
         return content;
     }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public void setRecommendationId(int recommendationId) {
+        this.recommendationId = recommendationId;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setRate(int rate) {
+        this.rate = rate;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

@@ -1,5 +1,7 @@
 package com.jmb.microservices.core.recommendation.services;
 
+import com.jmb.microservices.core.recommendation.mapper.RecommendationMapper;
+import com.jmb.microservices.core.recommendation.persistence.RecommendationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,16 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     private final ServiceUtil serviceUtil;
 
+    private final RecommendationRepository repository;
+
+    private final RecommendationMapper recommendationMapper;
+
     @Autowired
-    public RecommendationServiceImpl(ServiceUtil serviceUtil) {
+    public RecommendationServiceImpl(ServiceUtil serviceUtil, RecommendationRepository repository,
+                                     RecommendationMapper recommendationMapper) {
         this.serviceUtil = serviceUtil;
+        this.repository = repository;
+        this.recommendationMapper = recommendationMapper;
     }
 
     @Override
@@ -29,18 +38,19 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
 
-        if (productId == 113) {
-            LOG.debug("No recommendations found for productId: {}", productId);
-            return  new ArrayList<>();
+        //Retrieve recommendations by productId and map to API (DTO) objects
+        var recommendations = repository.findByProductId(productId)
+                .stream()
+                .map(recommendationMapper::entityToApi)
+                .toList();
+
+        recommendations.forEach(recommendation -> recommendation.setServiceAddress(serviceUtil.getServiceAddress()));
+        // Return if we found anything
+        if (recommendations.isEmpty()) {
+            LOG.debug("/recommendation response size is empty");
+            return recommendations;
         }
-
-        List<Recommendation> list = new ArrayList<>();
-        list.add(new Recommendation(productId, 1, "Author 1", 1, "Content 1", serviceUtil.getServiceAddress()));
-        list.add(new Recommendation(productId, 2, "Author 2", 2, "Content 2", serviceUtil.getServiceAddress()));
-        list.add(new Recommendation(productId, 3, "Author 3", 3, "Content 3", serviceUtil.getServiceAddress()));
-
-        LOG.debug("/recommendation response size: {}", list.size());
-
-        return list;
+        LOG.debug("/recommendation response size: {}", recommendations.size());
+        return recommendations;
     }
 }

@@ -1,5 +1,8 @@
 package com.jmb.microservices.core.recommendation;
 
+import com.jmb.microservices.core.recommendation.persistence.MongoDBTestBase;
+import com.jmb.microservices.core.recommendation.persistence.RecommendationEntity;
+import com.jmb.microservices.core.recommendation.persistence.RecommendationRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +17,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class RecommendationServiceApplicationTests {
+public class RecommendationServiceApplicationTests extends MongoDBTestBase {
 
     @Autowired
     private WebTestClient client;
+
+    @Autowired
+    private RecommendationRepository repository;
 
     @Test
     public void getRecommendationsByProductId() {
 
         int productId = 1;
+
+        insertRecommendation(productId, 1);
+        insertRecommendation(productId, 2);
 
         client.get()
                 .uri("/recommendation?productId=" + productId)
@@ -31,8 +40,9 @@ public class RecommendationServiceApplicationTests {
                 .expectStatus().isOk()
                 .expectHeader().contentType(APPLICATION_JSON)
                 .expectBody()
-                .jsonPath("$.length()").isEqualTo(3)
-                .jsonPath("$[0].productId").isEqualTo(productId);
+                .jsonPath("$.length()").isEqualTo(2)
+                .jsonPath("$[0].productId").isEqualTo(productId)
+                .jsonPath("$[1].productId").isEqualTo(productId);
     }
 
     @Test
@@ -91,5 +101,10 @@ public class RecommendationServiceApplicationTests {
                 .expectBody()
                 .jsonPath("$.path").isEqualTo("/recommendation")
                 .jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
+    }
+
+    private void insertRecommendation(int productId, int recommendationId) {
+        repository.save(new RecommendationEntity(productId, recommendationId, "Author 1", 1,
+                "Content 1"));
     }
 }

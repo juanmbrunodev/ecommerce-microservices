@@ -58,9 +58,7 @@ class ProductRepositoryTest extends MongoDBTestBase {
         String changedName = "changed_name";
         savedEntity.setName(changedName);
         productRepository.save(savedEntity);
-
         var foundEntity = productRepository.findByProductId(savedEntity.getProductId()).get();
-
         assertEquals(changedName, foundEntity.getName());
     }
 
@@ -69,7 +67,6 @@ class ProductRepositoryTest extends MongoDBTestBase {
     @DisplayName("Test that a ProductEntity is successfully deleted with the Repository")
     void testDelete() {
         productRepository.delete(savedEntity);
-
         assertFalse(productRepository.existsById(savedEntity.getProductId()));
     }
 
