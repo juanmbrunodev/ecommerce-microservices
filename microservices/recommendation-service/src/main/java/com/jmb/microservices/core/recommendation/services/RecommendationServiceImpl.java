@@ -45,7 +45,8 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .toList();
 
         recommendations.forEach(recommendation -> recommendation.setServiceAddress(serviceUtil.getServiceAddress()));
-        // Return if we found anything
+
+        // Return if we did not find anything
         if (recommendations.isEmpty()) {
             LOG.debug("/recommendation response size is empty");
             return recommendations;

@@ -1,5 +1,6 @@
 package com.jmb.microservices.core.review.persistence;
 
+import com.jmb.core.review.Review;
 import jakarta.persistence.*;
 
 /**
@@ -30,6 +31,8 @@ public class ReviewEntity {
     private String author;
     private String subject;
     private String content;
+
+    public ReviewEntity(){}
 
     public ReviewEntity(int productId, int reviewId, String author, String subject, String content) {
         this.productId = productId;
@@ -65,5 +68,25 @@ public class ReviewEntity {
 
     public String getContent() {
         return content;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public void setReviewId(int reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
