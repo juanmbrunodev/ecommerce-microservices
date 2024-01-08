@@ -26,8 +26,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 * (Note that the index name is not included in the compound index
 * definition).
 * */
-@CompoundIndex(name = "prod-rec-id", unique = true,
-        def = "{'productId': 1, 'recommendationId' : 1}")
+@CompoundIndex(name = "prod-rec-id", unique = true, def = "{'productId': 1, 'recommendationId' : 1}")
 public class RecommendationEntity {
 
     @Id

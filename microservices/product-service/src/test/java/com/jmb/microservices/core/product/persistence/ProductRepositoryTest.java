@@ -106,6 +106,7 @@ class ProductRepositoryTest extends MongoDBTestBase {
 
         //Assert the last valid state of the entity is the one with the first change
         var savedEntityLast = productRepository.findByProductId(savedEntity.getProductId()).get();
+        assertEquals(1, savedEntityLast.getVersion());
         assertEquals("changed_name_1", savedEntityLast.getName());
     }
 

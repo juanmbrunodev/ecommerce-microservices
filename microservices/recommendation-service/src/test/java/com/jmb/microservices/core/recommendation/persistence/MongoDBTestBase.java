@@ -30,6 +30,8 @@ public abstract class MongoDBTestBase {
         registry.add("spring.data.mongodb.port",
                 () -> DATABASE_MONGODB.getMappedPort(MONGODB_PORT));
         registry.add("spring.data.mongodb.database", () -> "test");
+        //Needs to be added for spring tests to create the index
+        registry.add("spring.data.mongodb.auto-index-creation", () -> true);
     }
 
 }

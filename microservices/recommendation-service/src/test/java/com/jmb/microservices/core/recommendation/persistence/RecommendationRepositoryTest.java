@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.OptimisticLockingFailureException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,12 +28,10 @@ public class RecommendationRepositoryTest extends MongoDBTestBase {
     @BeforeEach
     public void setup() {
         repository.deleteAll();
-
         //Insert an entity to retrieve in some CRUD test cases
         var entity = new RecommendationEntity(PERSISTED_PRODUCT_ID, RECOMMENDATION_ID, RECOMMENDATION_AUTHOR,
                 RATE, "content");
         savedEntity = repository.save(entity);
-
         assertRecommendationsAreEqual(entity, savedEntity);
         assertEquals(1, repository.count());
     }
@@ -72,12 +71,11 @@ public class RecommendationRepositoryTest extends MongoDBTestBase {
     }
 
     @Test
-    @DisplayName("Test that many RecommendationEntities are inserted successfully")
+    @DisplayName("Test that if RecommendationEntities are inserted with same key ir fails")
     public void testDuplicatedKeyException() {
-        var entity = new RecommendationEntity(PERSISTED_PRODUCT_ID, RECOMMENDATION_ID + 1, RECOMMENDATION_AUTHOR,
+        var clashingEntity = new RecommendationEntity(PERSISTED_PRODUCT_ID, RECOMMENDATION_ID, RECOMMENDATION_AUTHOR,
                 RATE, "content");
-        repository.save(entity);
-        assertEquals(2, repository.findByProductId(PERSISTED_PRODUCT_ID).size());
+        assertThrows(DuplicateKeyException.class, () -> repository.save(clashingEntity));
     }
 
     @Test
@@ -98,6 +96,7 @@ public class RecommendationRepositoryTest extends MongoDBTestBase {
 
         //Assert the last valid state of the entity is the one with the first change
         var savedEntityLast = repository.findByProductId(savedEntity.getProductId()).get(0);
+        assertEquals(2, savedEntityLast.getVersion());
         assertEquals("changed_author_1", savedEntityLast.getAuthor());
     }
 
