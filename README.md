@@ -108,3 +108,11 @@ _To access the API documentation_:
 command `docker ps | grep 'ecommerce'`.
 - Then, to browse the OpenAPI documentation, use the embedded Swagger UI viewer. Open the http://localhost:8080/openapi/swagger-ui.html URL in a web browser
 
+### Troubleshooting
+
+#### Linux
+
+- Test Container test cases are failing due to "Could not find a valid Docker environment"
+
+In some cases, it might be necessary to grant added permissions for TestContainers, which create ephemeral docker
+images during Persistence/Integration tests, the following link should help: https://stackoverflow.com/questions/61108655/test-container-test-cases-are-failing-due-to-could-not-find-a-valid-docker-envi

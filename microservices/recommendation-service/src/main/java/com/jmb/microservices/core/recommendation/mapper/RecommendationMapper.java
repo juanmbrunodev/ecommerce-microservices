@@ -4,14 +4,21 @@ import com.jmb.core.recommendation.Recommendation;
 import com.jmb.microservices.core.recommendation.persistence.RecommendationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface RecommendationMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "version", ignore = true)
-    public RecommendationEntity mapApiToEntity(Recommendation model);
+    @Mappings({
+            @Mapping(target = "rate", source = "entity.rate"),
+            @Mapping(target = "serviceAddress", ignore = true)
+    })
+    Recommendation entityToApi(RecommendationEntity entity);
 
-    @Mapping(target = "serviceAddress", ignore = true)
-    public Recommendation mapEntityToApi(RecommendationEntity entity);
+    @Mappings({
+            @Mapping(target = "rate", source = "api.rate"),
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "version", ignore = true)
+    })
+    RecommendationEntity apiToEntity(Recommendation api);
 }

@@ -1,4 +1,4 @@
-package com.jmb.microservices.core.product.persistence;
+package com.jmb.microservices.core.recommendation.persistence;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -13,15 +13,15 @@ import org.testcontainers.containers.MongoDBContainer;
  */
 public abstract class MongoDBTestBase {
 
-    private static final int MONGODB_PORT = 27017;
+   private static final int MONGODB_PORT = 27017;
 
-    static final MongoDBContainer DATABASE_MONGODB;
+   static final MongoDBContainer DATABASE_MONGODB;
 
-    static {
-        DATABASE_MONGODB = new MongoDBContainer("mongo:4.4.2")
-                .withReuse(true);
-        DATABASE_MONGODB.start();
-    }
+   static {
+       DATABASE_MONGODB = new MongoDBContainer("mongo:4.4.2")
+               .withReuse(true);
+       DATABASE_MONGODB.start();
+   }
 
     //Set properties based on the container for MongoDB into the spring test properties.
     @DynamicPropertySource
@@ -30,5 +30,8 @@ public abstract class MongoDBTestBase {
         registry.add("spring.data.mongodb.port",
                 () -> DATABASE_MONGODB.getMappedPort(MONGODB_PORT));
         registry.add("spring.data.mongodb.database", () -> "test");
+        //Needs to be added for spring tests to create the index
+        registry.add("spring.data.mongodb.auto-index-creation", () -> true);
     }
+
 }

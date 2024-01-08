@@ -15,12 +15,12 @@ public interface ProductMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "version", ignore = true)
-    public ProductEntity mapApiToEntity(Product product);
+    ProductEntity mapApiToEntity(Product product);
 
     /*
     * In the same way, the apiToEntity() method is annotated to ignore the 'id' and 'version' fields that are missing
     * in the API model class.
     */
     @Mapping(target = "serviceAddress", ignore = true)
-    public Product mapEntityToApi(ProductEntity entity);
+    Product mapEntityToApi(ProductEntity entity);
 }
