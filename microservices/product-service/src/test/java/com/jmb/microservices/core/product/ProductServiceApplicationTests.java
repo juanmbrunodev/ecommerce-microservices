@@ -16,6 +16,9 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+/**
+ * Represents an E2E Test for the Product Service.
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=RANDOM_PORT)
 class ProductServiceApplicationTests extends MongoDBTestBase {
@@ -93,6 +96,42 @@ class ProductServiceApplicationTests extends MongoDBTestBase {
             .expectBody()
             .jsonPath("$.path").isEqualTo("/product/" + productIdInvalid)
             .jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
+	}
+
+	@Test
+	void createProduct() {
+
+		int productId = 1;
+		var product = new ProductEntity(productId, "aProductName", 123);
+
+		client.post()
+			.uri("/product")
+			.bodyValue(product)
+			.exchange()
+			.expectStatus().isOk();
+	}
+
+	@Test
+	void deleteProduct() {
+
+		int productId = 1;
+		insertProductInDB(productId);
+
+		client.delete()
+			.uri("/product/" + productId)
+			.exchange()
+			.expectStatus().isOk();
+
+		//Also assert the product is no longer present
+		client.get()
+				.uri("/product/" + productId)
+				.accept(APPLICATION_JSON)
+				.exchange()
+				.expectStatus().isNotFound()
+				.expectHeader().contentType(APPLICATION_JSON)
+				.expectBody()
+				.jsonPath("$.path").isEqualTo("/product/" + productId)
+				.jsonPath("$.message").isEqualTo("Product not found for id provided: " + productId);
 	}
 
 	private void insertProductInDB(int productId) {

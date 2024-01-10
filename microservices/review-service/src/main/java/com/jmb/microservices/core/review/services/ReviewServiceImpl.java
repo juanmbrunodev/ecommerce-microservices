@@ -1,5 +1,7 @@
 package com.jmb.microservices.core.review.services;
 
+import com.jmb.microservices.core.review.mapper.ReviewMapper;
+import com.jmb.microservices.core.review.persistence.ReviewRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,22 @@ public class ReviewServiceImpl implements ReviewService {
     private static final Logger LOG = LoggerFactory.getLogger(ReviewServiceImpl.class);
 
     private final ServiceUtil serviceUtil;
+    private final ReviewRepository repository;
+    private final ReviewMapper reviewMapper;
 
     @Autowired
-    public ReviewServiceImpl(ServiceUtil serviceUtil) {
+    public ReviewServiceImpl(ServiceUtil serviceUtil, ReviewRepository repository,
+                             ReviewMapper reviewMapper) {
+        this.repository = repository;
+        this.reviewMapper = reviewMapper;
         this.serviceUtil = serviceUtil;
+    }
+
+    @Override
+    public Review createReview(Review review) {
+        var reviewEntity = reviewMapper.apiToEntity(review);
+        var savedEntity = repository.save(reviewEntity);
+        return reviewMapper.entityToApi(savedEntity);
     }
 
     @Override
@@ -34,13 +48,22 @@ public class ReviewServiceImpl implements ReviewService {
             return  new ArrayList<>();
         }
 
-        List<Review> list = new ArrayList<>();
-        list.add(new Review(productId, 1, "Author 1", "Subject 1", "Content 1", serviceUtil.getServiceAddress()));
-        list.add(new Review(productId, 2, "Author 2", "Subject 2", "Content 2", serviceUtil.getServiceAddress()));
-        list.add(new Review(productId, 3, "Author 3", "Subject 3", "Content 3", serviceUtil.getServiceAddress()));
+        var list = repository.findByProductId(productId);
+
+        if (list.isEmpty()) {
+            LOG.debug("Reviews not found for id provided: {}", productId);
+            return  new ArrayList<>();
+        }
 
         LOG.debug("/reviews response size: {}", list.size());
 
-        return list;
+        return list
+                .stream()
+                .map(reviewMapper::entityToApi).toList();
+    }
+
+    @Override
+    public void deleteReviews(int productId) {
+        repository.deleteAll(repository.findByProductId(productId));
     }
 }
