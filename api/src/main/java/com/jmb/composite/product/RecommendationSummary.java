@@ -2,10 +2,12 @@ package com.jmb.composite.product;
 
 public class RecommendationSummary {
 
-    private final int recommendationId;
-    private final String author;
-    private final int rate;
-    private final String content;
+    private int recommendationId;
+    private String author;
+    private int rate;
+    private String content;
+
+    public RecommendationSummary() {}
 
     public RecommendationSummary(int recommendationId, String author, int rate, String content) {
         this.recommendationId = recommendationId;

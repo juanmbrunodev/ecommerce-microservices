@@ -4,6 +4,8 @@ import com.jmb.composite.product.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.jmb.core.product.Product;
 import com.jmb.core.recommendation.Recommendation;
@@ -33,7 +35,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     }
 
     @Override
-    public void createProduct(ProductAggregate body) {
+    public void createProduct(@RequestBody ProductAggregate body) {
         try {
             /**
              * Creates the product, hits the product service url in the backend
@@ -46,18 +48,20 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
              * see {@link ProductCompositeIntegration#createRecommendation(Recommendation)}
              */
             if (body.getRecommendations() != null) {
-                body.getRecommendations().forEach(r -> integration.createRecommendation(
-                        new Recommendation(body.getProductId(), r.getRecommendationId(),
-                                r.getAuthor(), r.getRate(), r.getContent(), null)));
+                body.getRecommendations().forEach(r -> {
+                    Recommendation recommendation = new Recommendation(body.getProductId(), r.getRecommendationId(), r.getAuthor(), r.getRate(), r.getContent(), null);
+                    integration.createRecommendation(recommendation);
+                });
             }
             /**
              * Create related reviews, hits the review service url in the backend
              * see {@link ProductCompositeIntegration#createReview(Review)}
              */
             if (body.getReviews() != null) {
-                body.getReviews().forEach(r -> integration.createReview(
-                        new Review(body.getProductId(), r.getReviewId(),
-                                r.getAuthor(), r.getSubject(), r.getContent(), null)));
+                body.getReviews().forEach(r -> {
+                    Review review = new Review(body.getProductId(), r.getReviewId(), r.getAuthor(), r.getSubject(), r.getContent(), null);
+                    integration.createReview(review);
+                });
             }
         } catch (RuntimeException re) {
             LOG.warn("Error while creating composite Product", re);
@@ -66,7 +70,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     }
 
     @Override
-    public ProductAggregate getProduct(int productId) {
+    public ProductAggregate getProduct(@PathVariable int productId) {
 
         Product product = integration.getProduct(productId);
         if (product == null) throw new NotFoundException("No product found for productId: " + productId);
@@ -79,7 +83,7 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     }
 
     @Override
-    public void deleteProduct(int productId) {
+    public void deleteProduct(@PathVariable int productId) {
         var product = integration.getProduct(productId);
         if (product != null) {
             integration.deleteProduct(productId);

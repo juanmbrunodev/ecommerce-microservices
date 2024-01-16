@@ -23,7 +23,6 @@ import static reactor.core.publisher.Mono.just;
 /**
  * Represents an E2E Test for the Recommendation Service.
  */
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class RecommendationServiceApplicationTests extends MongoDBTestBase {
 

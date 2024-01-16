@@ -68,7 +68,25 @@ curl localhost:8080/product-composite/123 -s | jq .
 
 The name is the one defined in the REST controller mapping for the composite service interface (ProductCompositeService.)
 
-To stop docker compose execute:
+#### Inspecting Docker Compose Databases
+
+To start the MongoDB CLI tool, mongo, inside the mongodb container, run the following command:
+
+```
+docker-compose exec mongodb mongosh ––quiet
+> show dbs
+```
+
+To start the MySQL CLI tool, mysql, inside the mysql container and log in to review-db using the user created at startup, 
+run the following command:
+
+```
+mysql -h localhost -P 3306 --protocol=tcp -u root -p review-db
+mysql> show tables;
+```
+```
+
+Finally, to stop docker compose, and stop all services running, execute:
 
 ```
 docker compose down

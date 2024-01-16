@@ -69,7 +69,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
         this.restTemplate = restTemplate;
         this.mapper = mapper;
 
-        productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product/";
+        productServiceUrl = "http://" + productServiceHost + ":" + productServicePort + "/product";
         recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort
                 + "/recommendation?productId=";
         reviewServiceUrl = "http://" + reviewServiceHost + ":" + reviewServicePort + "/review?productId=";
@@ -78,7 +78,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     @Override
     public Product getProduct(int productId) {
         try {
-            String url = productServiceUrl + productId;
+            String url = productServiceUrl + "/" + productId;
             LOG.debug("Will call getProduct API on URL: {}", url);
             Product product = restTemplate.getForObject(url, Product.class);
             if (product != null) {
@@ -102,7 +102,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     @Override
     public void deleteProduct(int productId) {
         try {
-            String url = productServiceUrl + productId;
+            String url = productServiceUrl + "/" + productId;
             LOG.debug("Will call deleteProduct API on URL: {}", url);
             restTemplate.delete(url);
         } catch (HttpClientErrorException ex) {

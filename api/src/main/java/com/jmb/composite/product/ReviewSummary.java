@@ -2,10 +2,12 @@ package com.jmb.composite.product;
 
 public class ReviewSummary {
 
-    private final int reviewId;
-    private final String author;
-    private final String subject;
-    private final String content;
+    private int reviewId;
+    private String author;
+    private String subject;
+    private String content;
+
+    public ReviewSummary() {}
 
     public ReviewSummary(int reviewId, String author, String subject, String content) {
         this.reviewId = reviewId;
