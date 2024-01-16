@@ -1,17 +1,12 @@
 package com.jmb.composite.product;
 
 public class ServiceAddresses {
-    private final String cmp;
-    private final String pro;
-    private final String rev;
-    private final String rec;
+    private String cmp;
+    private String pro;
+    private String rev;
+    private String rec;
 
-    public ServiceAddresses() {
-        cmp = null;
-        pro = null;
-        rev = null;
-        rec = null;
-    }
+    public ServiceAddresses() {}
 
     public ServiceAddresses(String compositeAddress, String productAddress, String reviewAddress, String recommendationAddress) {
         this.cmp = compositeAddress;

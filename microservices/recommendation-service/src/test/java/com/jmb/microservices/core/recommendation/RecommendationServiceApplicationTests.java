@@ -1,8 +1,11 @@
 package com.jmb.microservices.core.recommendation;
 
+import com.jmb.core.recommendation.Recommendation;
+import com.jmb.core.review.Review;
 import com.jmb.microservices.core.recommendation.persistence.MongoDBTestBase;
 import com.jmb.microservices.core.recommendation.persistence.RecommendationEntity;
 import com.jmb.microservices.core.recommendation.persistence.RecommendationRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +13,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static reactor.core.publisher.Mono.just;
 
-@ExtendWith(SpringExtension.class)
+/**
+ * Represents an E2E Test for the Recommendation Service.
+ */
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class RecommendationServiceApplicationTests extends MongoDBTestBase {
 
@@ -24,6 +31,11 @@ public class RecommendationServiceApplicationTests extends MongoDBTestBase {
 
     @Autowired
     private RecommendationRepository repository;
+
+    @BeforeEach
+    public void setupDB() {
+        repository.deleteAll();
+    }
 
     @Test
     public void getRecommendationsByProductId() {
@@ -101,6 +113,25 @@ public class RecommendationServiceApplicationTests extends MongoDBTestBase {
                 .expectBody()
                 .jsonPath("$.path").isEqualTo("/recommendation")
                 .jsonPath("$.message").isEqualTo("Invalid productId: " + productIdInvalid);
+    }
+
+    @Test
+    public void createRecommendations() {
+
+        int productId = 1;
+
+        var recommendation = new RecommendationEntity(productId, 1, "Author 1", 1, "Content 1");
+
+        client.post()
+                .uri("/recommendation")
+                .body(just(recommendation), Recommendation.class)
+                .accept(APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(APPLICATION_JSON)
+                .expectBody();
+
+        assertFalse(repository.findByProductId(productId).isEmpty());
     }
 
     private void insertRecommendation(int productId, int recommendationId) {

@@ -34,6 +34,12 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
+    public Recommendation createRecommendation(Recommendation recommendation) {
+        var entity = recommendationMapper.apiToEntity(recommendation);
+        return recommendationMapper.entityToApi(repository.save(entity));
+    }
+
+    @Override
     public List<Recommendation> getRecommendations(int productId) {
 
         if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
@@ -53,5 +59,15 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
         LOG.debug("/recommendation response size: {}", recommendations.size());
         return recommendations;
+    }
+
+    /**
+     * Deletes all recommendations for a given product.
+     * @param productId ID of the product to delete recommendations for.
+     */
+    @Override
+    public void deleteRecommendations(int productId) {
+        LOG.debug("deleteRecommendations: tries to delete recommendations for the product with productId: {}", productId);
+        repository.deleteAll(repository.findByProductId(productId));
     }
 }

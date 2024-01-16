@@ -15,7 +15,7 @@ public interface ProductService {
         produces = CONTENT_TYPE_JSON)
      Product getProduct(@PathVariable int productId);
 
-    //Add new operations for the API, make sure OpenAPI documents them in the composite Service
+    //If any changes, need to add new operations for the API, make sure OpenAPI documents them in the composite Service
     @PostMapping(
             value = "/product",
             produces = CONTENT_TYPE_JSON,
