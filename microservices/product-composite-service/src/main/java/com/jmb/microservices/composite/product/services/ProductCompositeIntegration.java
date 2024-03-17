@@ -19,6 +19,7 @@ import com.jmb.core.recommendation.RecommendationService;
 import com.jmb.core.review.Review;
 import com.jmb.core.review.ReviewService;
 import com.jmb.util.exceptions.InvalidInputException;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class ProductCompositeIntegration implements ProductService, Recommendati
     }
 
     @Override
-    public Product getProduct(int productId) {
+    public Mono<Product> getProduct(int productId) {
         try {
             String url = productServiceUrl + "/" + productId;
             LOG.debug("Will call getProduct API on URL: {}", url);

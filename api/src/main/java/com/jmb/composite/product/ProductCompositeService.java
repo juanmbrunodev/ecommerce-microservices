@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import reactor.core.publisher.Mono;
 
 /**
  * Describing a RESTful API in a Java interface instead of directly in the Java class is a good way of separating the
@@ -33,7 +34,7 @@ public interface ProductCompositeService {
     @PostMapping(
             value = "/product-composite",
             consumes = "application/json")
-    void createProduct(ProductAggregate body);
+    Mono<Void> createProduct(ProductAggregate body);
 
     @Operation(
             summary = "${api.product-composite.get-composite-product.description}",
@@ -47,7 +48,7 @@ public interface ProductCompositeService {
     @GetMapping(
             value = "/product-composite/{productId}",
             produces = "application/json")
-    ProductAggregate getProduct(@PathVariable int productId);
+    Mono<ProductAggregate> getProduct(@PathVariable int productId);
 
     /**
      * Sample usage: "curl -X DELETE $HOST:$PORT/product-composite/1".
@@ -62,5 +63,5 @@ public interface ProductCompositeService {
             @ApiResponse(responseCode = "422", description = "${api.responseCodes.unprocessableEntity.description}")
     })
     @DeleteMapping(value = "/product-composite/{productId}")
-    void deleteProduct(@PathVariable int productId);
+    Mono<Void> deleteProduct(@PathVariable int productId);
 }

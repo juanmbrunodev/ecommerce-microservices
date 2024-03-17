@@ -12,6 +12,7 @@ import com.jmb.core.recommendation.Recommendation;
 import com.jmb.core.review.Review;
 import com.jmb.util.exceptions.NotFoundException;
 import com.jmb.util.http.ServiceUtil;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,9 +71,9 @@ public class ProductCompositeServiceImpl implements ProductCompositeService {
     }
 
     @Override
-    public ProductAggregate getProduct(@PathVariable int productId) {
+    public Mono<ProductAggregate> getProduct(@PathVariable int productId) {
 
-        Product product = integration.getProduct(productId);
+        Mono<Product> product = integration.getProduct(productId);
         if (product == null) throw new NotFoundException("No product found for productId: " + productId);
 
         List<Recommendation> recommendations = integration.getRecommendations(productId);

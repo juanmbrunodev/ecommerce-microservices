@@ -10,6 +10,8 @@ import com.jmb.core.recommendation.Recommendation;
 import com.jmb.core.recommendation.RecommendationService;
 import com.jmb.util.exceptions.InvalidInputException;
 import com.jmb.util.http.ServiceUtil;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +36,13 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public Recommendation createRecommendation(Recommendation recommendation) {
+    public Mono<Recommendation> createRecommendation(Recommendation recommendation) {
         var entity = recommendationMapper.apiToEntity(recommendation);
         return recommendationMapper.entityToApi(repository.save(entity));
     }
 
     @Override
-    public List<Recommendation> getRecommendations(int productId) {
+    public Flux<Recommendation> getRecommendations(int productId) {
 
         if (productId < 1) throw new InvalidInputException("Invalid productId: " + productId);
 
@@ -63,11 +65,18 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     /**
      * Deletes all recommendations for a given product.
+     *
      * @param productId ID of the product to delete recommendations for.
      */
     @Override
-    public void deleteRecommendations(int productId) {
+    public Mono<Void> deleteRecommendations(int productId) {
+        if (productId < 1) {
+            throw new InvalidInputException("Invalid productId: " + productId);
+        }
         LOG.debug("deleteRecommendations: tries to delete recommendations for the product with productId: {}", productId);
-        repository.deleteAll(repository.findByProductId(productId));
+        return repository.findByProductId(productId)
+                .map(repository::delete)
+                .then();
+
     }
 }
